@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+
+  app:
+
+    build:
+      context: ./project/app
+      dockerfile: Dockerfile
+    command: uvicorn project.app.src.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    volumes:
+      - ./:/src/app
+    ports:
+      - "8004:8000"
+    environment:
+      - ENVIRONMENT=DEV #  DEV, TEST, PROD
+      - TESTING=0 #  0 - False, 1 - True
+      - DATABASE_URL=postgres://ademchenkov:pass@postgres:5432/wolny_postgres_dev        # new
+    depends_on:
+      - postgres
+    networks:
+      - wm-network
+
+  postgres:
+
+    build:
+      context: ./project/postgres
+      dockerfile: Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=ademchenkov
+      - POSTGRES_PASSWORD=pass
+    restart: always
+    networks:
+     - wm-network
+
+  pg-admin:
+
+    build:
+      context: ./project/pg-admin
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "15432:80"
+    depends_on:
+      - postgres
+    networks:
+      - wm-network
+
+networks:
+
+  wm-network:
+    driver: bridge

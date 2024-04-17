@@ -1,0 +1,1 @@
+CREATE DATABASE wolny_postgres_dev;
