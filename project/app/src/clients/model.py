@@ -8,3 +8,6 @@ class Client(Model):
 	surname = fields.CharField(null=False, max_length=30)
 	phone = fields.CharField(null=False, max_length=30)
 	email = fields.CharField
+
+	class Meta:
+		table = "clients"

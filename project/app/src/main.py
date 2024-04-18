@@ -1,13 +1,36 @@
+import logging
+
 from fastapi import FastAPI
 
-app = FastAPI()
+from project.app.src.database import init_db
+
+log = logging.getLogger("uvicorn")
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+def create_application() -> FastAPI:
+	application = FastAPI(
+		title="Wolny",
+		description="Welcome to Wolny API documentation!",
+		redoc_url=None,
+	)
+
+	return application
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+app = create_application()
+
+
+@app.on_event("startup")
+async def startup_event():
+	logging.info("Starting up...")
+	await init_db(app)
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+	logging.info("Shutting down...")
+
+
+@app.get("/healthcheck", include_in_schema=False)
+async def healthcheck() -> dict[str, str]:
+	return {"status": "ok"}

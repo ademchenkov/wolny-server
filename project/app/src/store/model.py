@@ -21,6 +21,9 @@ class ProductItemState(str, Enum):
 
 class ProductItem(Model):
 	item_id = fields.IntField(pk=True)
-	product_id = fields.ForeignKeyField("prices.Product", related_name="id", null=False)
+	product = fields.ForeignKeyField("wolny.Product", related_name="productItems", null=False)
 	size = fields.CharEnumField(ProductItemSize, null=False)
 	status = fields.CharEnumField(ProductItemState, null=False)
+
+	class Meta:
+		table = "product_items"

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   app:
@@ -34,23 +32,6 @@ services:
     restart: always
     networks:
      - wm-network
-
-  pg-admin:
-
-    build:
-      context: ./project/pg-admin
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/var/lib/pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
-      PGADMIN_DEFAULT_PASSWORD: password
-    ports:
-      - "15432:80"
-    depends_on:
-      - postgres
-    networks:
-      - wm-network
 
 networks:
 
