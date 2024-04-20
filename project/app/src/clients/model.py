@@ -1,9 +1,9 @@
-from tortoise.models import Model
 from tortoise import fields
 
+from project.app.src.common.model import MyModel
 
-class Client(Model):
-	id = fields.CharField(pk=True, max_length=8)
+
+class Client(MyModel):
 	name = fields.CharField(null=False, max_length=30)
 	surname = fields.CharField(null=False, max_length=30)
 	phone = fields.CharField(null=False, max_length=30)

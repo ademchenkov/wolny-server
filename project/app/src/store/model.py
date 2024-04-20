@@ -1,7 +1,8 @@
 from enum import Enum
 
-from tortoise.models import Model
 from tortoise import fields
+
+from project.app.src.common.model import MyModel
 
 
 class ProductItemSize(str, Enum):
@@ -19,8 +20,7 @@ class ProductItemState(str, Enum):
 	DELIVERED = "delivered"
 
 
-class ProductItem(Model):
-	item_id = fields.IntField(pk=True)
+class ProductItem(MyModel):
 	product = fields.ForeignKeyField("wolny.Product", related_name="productItems", null=False)
 	size = fields.CharEnumField(ProductItemSize, null=False)
 	status = fields.CharEnumField(ProductItemState, null=False)

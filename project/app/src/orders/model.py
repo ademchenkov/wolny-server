@@ -1,7 +1,8 @@
 from enum import Enum
 
-from tortoise.models import Model
 from tortoise import fields
+
+from project.app.src.common.model import MyModel
 
 
 class OrderPlatform(str, Enum):
@@ -9,8 +10,7 @@ class OrderPlatform(str, Enum):
 	TELEGRAM = "Telegram"
 
 
-class Order(Model):
-	id = fields.CharField(pk=True, max_length=8)
+class Order(MyModel):
 	client = fields.ForeignKeyField("wolny.Client", related_name="orders", null=False)
 	order_platform = fields.CharEnumField(OrderPlatform)
 	payment_type = fields.CharField  # добавить enum для того, чтобы понимать канал оплаты
@@ -20,12 +20,11 @@ class Order(Model):
 		table = "orders"
 
 
-class OrderItems(Model):
+class OrderItems(MyModel):
 	order = fields.ForeignKeyField("wolny.Order", related_name="orderItems")
 	item = fields.ForeignKeyField("wolny.ProductItem", related_name="orderItems")
 	paid_price = fields.FloatField
 
 	class Meta:
 		unique_together = ("order_id", "item_id")
-		primary_key = ("order_id", "item_id")
 		table = "order_items"
