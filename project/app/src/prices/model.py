@@ -1,13 +1,10 @@
-from tortoise import fields
+from datetime import datetime
 
-from project.app.src.common.model import MyModel
+from project.app.src.common.model import PydanticModel
 
 
-class Price(MyModel):
-	product = fields.ForeignKeyField("wolny.Product", related_name="prices", null=False)
-	from_datetime = fields.DatetimeField(null=False)
-	full_price = fields.FloatField(null=False)
-	sale_price = fields.FloatField
-
-	class Meta:
-		table = "prices"
+class PriceRequest(PydanticModel):
+	from_datetime: datetime
+	full_price: str
+	sale_price: str = None
+	has_sale: bool

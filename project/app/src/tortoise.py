@@ -6,11 +6,11 @@ TORTOISE_ORM = {
 	"apps": {
 		"wolny": {
 			"models": [
-				"project.app.src.clients.model",
-				"project.app.src.orders.model",
-				"project.app.src.prices.model",
-				"project.app.src.products.model",
-				"project.app.src.store.model"
+				"project.app.src.clients.db_model",
+				"project.app.src.orders.db_model",
+				"project.app.src.prices.db_model",
+				"project.app.src.products.db_model",
+				"project.app.src.store.db_model"
 			],
 			"default_connection": "default",
 		},

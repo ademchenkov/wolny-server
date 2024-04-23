@@ -1,11 +1,29 @@
-from tortoise import fields
+from typing import List, Optional
 
-from project.app.src.common.model import MyModel
+from pydantic import UUID4
+
+from project.app.src.common.model import PydanticModel
 
 
-class Product(MyModel):
-	is_active = fields.BooleanField(null=False)
-	product_data = fields.JSONField(null=False)
+class ProductDescription(PydanticModel):
+	title: str
+	text: str
 
-	class Meta:
-		table = "products"
+
+class ProductAdvantage(PydanticModel):
+	text: str
+
+
+class ProductImage(PydanticModel):
+	url: str
+
+
+class ProductRequest(PydanticModel):
+	name: str
+	images: Optional[List[ProductImage]]
+	advantages: Optional[List[ProductAdvantage]]
+	descriptions: Optional[List[ProductDescription]]
+
+
+class ProductResponse(ProductRequest):
+	id: UUID4
