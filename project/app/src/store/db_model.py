@@ -21,7 +21,7 @@ class ProductItemState(str, Enum):
 
 
 class ProductItem(DBModel):
-	product = fields.ForeignKeyField("wolny.Product", related_name="productItems", null=False)
+	product = fields.ForeignKeyField("wolny.ProductDb", related_name="productItems", null=False)
 	size = fields.CharEnumField(ProductItemSize, null=False)
 	status = fields.CharEnumField(ProductItemState, null=False)
 

@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import ResponseValidationError
 from starlette.responses import JSONResponse
 from tortoise.exceptions import IntegrityError
 
@@ -49,6 +50,22 @@ async def http_exception_handler(request, exc):
 
 
 @app.exception_handler(IntegrityError)
+async def tortoise_exception_handler(request, exc):
+	return JSONResponse(
+		status_code=400,
+		content={"message": str(exc)},
+	)
+
+
+@app.exception_handler(TypeError)
+async def tortoise_exception_handler(request, exc):
+	return JSONResponse(
+		status_code=400,
+		content={"message": str(exc)},
+	)
+
+
+@app.exception_handler(ResponseValidationError)
 async def tortoise_exception_handler(request, exc):
 	return JSONResponse(
 		status_code=400,

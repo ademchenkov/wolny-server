@@ -1,6 +1,5 @@
-from typing import List, Optional
-
-from pydantic import UUID4
+from typing import List
+from typing import Optional
 
 from project.app.src.common.model import PydanticModel
 
@@ -18,12 +17,12 @@ class ProductImage(PydanticModel):
 	url: str
 
 
-class ProductRequest(PydanticModel):
+class Product(PydanticModel):
 	name: str
-	images: Optional[List[ProductImage]]
-	advantages: Optional[List[ProductAdvantage]]
-	descriptions: Optional[List[ProductDescription]]
 
 
-class ProductResponse(ProductRequest):
-	id: UUID4
+class ProductPreview(Product):
+	id: str
+	descriptions: Optional[List[ProductDescription]] = []
+	advantages: Optional[List[ProductAdvantage]] = []
+	images: Optional[List[ProductImage]] = []
